@@ -20,12 +20,15 @@ driver = webdriver.Chrome(service=service, options=options)
 
 #브라우저 열기, 이미지 검색창으로 이동
 driver.get('https://google.co.kr/imghp')
-driver.implicitly_wait(time_to_wait=10)
+driver.implicitly_wait(time_to_wait=15)
 
-#검색창에 키워드 검색
-keyElement = driver.find_element(By.XPATH, '/html/body/div[1]/div[3]/form/div[1]/div[1]/div[1]/div/div[2]/input')   #cursor
-keyElement.send_keys(keyword)                                                                                       #input
-keyElement.send_keys(Keys.RETURN)                                                                                   #Enter
+# 검색창 렌더링 될 때까지 기다리기
+driver.find_element(By.CSS_SELECTOR, '#APjFqb').is_displayed()
+
+# 검색어 입력
+keyElement = driver.find_element(By.CSS_SELECTOR, '#APjFqb')
+keyElement.send_keys(keyword)
+keyElement.send_keys(Keys.RETURN)                                                                                  #Enter
 
 #스크롤
 bodyElement = driver.find_element(By.TAG_NAME, 'body')
@@ -42,7 +45,7 @@ imageSeq = 1
 for image in images:
     image.click()
     time.sleep(0.5)
-    highImages = driver.find_elements(By.CSS_SELECTOR, '#Sva75c > div.DyeYj > div > div.dFMRD > div.pxAole > div.tvh9oe.BIB1wf > c-wiz > div > div.OUZ5W > div.zjoqD > div.qdnLaf.isv-id.b0vFpe > div > a > img')
+    highImages = driver.find_elements(By.CSS_SELECTOR, '#Sva75c > div.DyeYj > div > div.dFMRD > div.pxAole > div.tvh9oe.BIB1wf > c-wiz > div.f2By0e > div.n4hgof > div.MAtCL.b0vFpe > a > img.r48jcc.pT0Scc.iPVvYb')
     realImage = highImages[0].get_attribute('src')
 
     try:
